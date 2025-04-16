@@ -133,3 +133,132 @@ void backtrack(int[]nums,LinkedList<Integer>track) {
 //计算子数组之和，for循环去遍历，前缀和技巧预计算一个preSum数组，避免循环，子数组操作，for循环去操作，
 
 //差分数组维护一个diff数组，避免循环，
+//二叉树题目递归算法分为两种
+
+//1.遍历二叉树得到答案
+//2.通过分解问题计算答案，分解问题的关键在于明确根节点需要做什么，然后剩下的事情抛给框架，
+
+int res = 0;
+int depth = 0;
+int maxDepth(TreeNode root) {
+    traverse(root);
+    return res;
+}
+void traverse(TreeNode root) {
+   if(root ===null) {
+       res = Math.max(res,depth);
+       return;
+   } 
+   depth++;
+   traverse(root.left);
+   traverse(root.right);
+   depth--;
+}
+
+//回溯算法
+
+List<List<Integer>> res = new LinkedList<>();
+LinkedList<Integer> track = new LinkedList<>();
+//主函数 输入一组不重复的数字，返回他们的全排列
+List<List<Integer>> permute(int[]nums) {
+    backtrack(nums,track);
+    return res;
+}
+//回溯算法框架
+void backtrack(int[]nums) {
+   if(track.size()==nums.length) {
+       res.add(new LinkedList(track));
+       return;
+   }
+   for(int i=0;i<nums.length;i++) {
+       if(track.contains(nums[i])) {
+           continue;
+       }
+       track.add(nums[i]);
+       backtrack(nums,track);
+       track.removeLast();
+   }
+}
+//回溯算法的本质就是遍历一个多叉树
+//回溯算法暴力解捞点
+
+//分解问题计算答案
+//计算二叉树的最大额深度
+int maxDepth(TreeNode root) {
+    if(root == null) {
+        return 0;
+    }
+    int leftMax = maxDepth(root.left);
+    int rightMax = maxDepth(root.right);
+    int res = Math.max(leftMax,rightMax)+1; 
+    return res;
+}
+//动态规划凑零钱暴力穷举解法
+
+//定义输入金额amount，返回凑出amount的最少硬币个数
+
+int coinChange (int[]coins,int amount) {
+    if(amount ===0 )return 0;
+    if(amount <0)return 1;
+    int res = Integer.MAX_VALUE;
+    for(int coin:coins) {
+        int subProblem = coinChange(coins,amount-coin);
+        if(subProblem==-1) {
+            continue;
+        }
+        res = Math.min(res,subProblem+1);
+    }
+    return res!=Integer.MAX_VALUE?res:-1;
+}
+//二叉树前序遍历
+List<Integer> res = new LinkedList<>();
+//返回前序遍历的结果
+List<Integer> preorderTraversal(TreeNode root) {
+    traverse(root);
+    return res;
+}
+//二叉树遍历函数
+void traverse(TreeNode root) {
+    if(root ===null) {
+        return;
+    }
+    //前序遍历位置
+    res.add(root.val);
+    traverse(root.left);
+    traverse(root.right);
+}
+//输入一棵树的根节点，返回这棵树前序遍历的结果
+
+List<Integer> preorder (TreeNode root) {
+    List<Integer> res = new LinkedList<>();
+    if(root ===null) {
+        return res;
+    }
+    res.add(root.val);
+    res.addAll(preorder(root.left));
+    res.addAll(preorder(root.right));
+}
+//BFS算法解题套路框架，二叉树的层序遍历
+//输入二叉树的节点，层序遍历这颗二叉树
+
+void levelTraverse(TreeNode root) {
+    if(root===null) return 0;
+    Queue<TreeNode> q = new LinkedList<>();
+    q.offer(root);
+    int depth = 1;
+    //从上到下遍历二叉树的每一层
+    while(!q.isEmpty()) {
+        int sz = q.size();
+        for(int i =0;i<sz;i++) {
+            TreeNode cur = q.poll();
+            if(cur.left!==null) {
+                q.offer(cur.left);
+            }
+            if(cur.right !==null) {
+                q.
+            }
+        }
+    }
+}
+
+//本质就是穷举二叉树
